@@ -66,7 +66,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     
  4. 再对比一下
  
- ** ./deploy.py diff**
+ **./deploy.py diff**
 
     ---------------------- DIFF --------------------
      from 	: ./testcase/testdeploy/dir1
