@@ -1,6 +1,8 @@
 # pydeploy
 A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, can view change difference, deploy with options. Write by python. 
 
+一个简单易用的部署工具，用于文件变更，可以查看变更内容，自动部署变更，自动备份变更文件。
+
 ## 测试一下
 
 1. 生成测试目录和文件
