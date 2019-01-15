@@ -1,3 +1,5 @@
+mkdir - p bak
+mkdir - p testdeploy
 cd testdeploy
 rm -r *
 mkdir -p dir1
