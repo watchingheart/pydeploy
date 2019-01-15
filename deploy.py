@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+# author: watchingheart
+# email: jzgjava@163.com
+
 import os
 from io import StringIO
 import datetime
@@ -25,33 +28,33 @@ def print_cmp(cmp, level=0):
     for f in all_files:
         if f in deploy_config.ignore:
             continue
-        if f in cmp.left_only:
+        if f in cmp.left_only:  # 新增的变更文件或目录
             print_file(buffer, '+', cmp.left, f, level)
-        elif f in cmp.right_only:
+        elif f in cmp.right_only:  # 变更中不包括的文件或目录
             print_file(buffer, '-', cmp.right, f, level)
-        elif f in cmp.same_files:
+        elif f in cmp.same_files:  # 内容相同未变更的文件
             if deploy_config.show_diff_only:
                 continue
             print_file(buffer, ' ', cmp.left, f, level)
-        else:
+        else:  # 变更内容的文件
             print_file(buffer, '*', cmp.left, f, level)
         count += 1
 
-    if level == 0:
+    if level == 0:  # 最上一层输出打印信息
         print(buffer.getvalue(), end='')
         buffer.close()
         buffer = StringIO()
-    for f in cmp.subdirs:
+    for f in cmp.subdirs:  # 处理子目录
         if f in deploy_config.ignore:
             continue
         sub_count, sub_buffer = print_cmp(cmp.subdirs[f], level+1)
-        if sub_count > 0:
+        if sub_count > 0:  # 判断目录是否有变更
             print_file(buffer, '*', cmp.left, f, level)
             buffer.write(sub_buffer.getvalue())
         else:
             if not deploy_config.show_diff_only:
                 print_file(buffer, ' ', cmp.left, f, level)
-        if level == 0:
+        if level == 0:  # 最上一层输出打印信息
             print(buffer.getvalue(), end='')
             buffer.close()
             buffer = StringIO()
@@ -140,6 +143,7 @@ def backup_compare(bak_dir, cmp):
             full_path = os.path.join(cmp.right, f)
             rel_path = os.path.relpath(cmp.right, deploy_config.dest)
             bak_path = os.path.join(bak_dir, rel_path)
+            # 按目录层次创建目录
             os.makedirs(bak_path, exist_ok=True)
             if os.path.isdir(full_path):
                 sub_cmp = cmp.subdirs.get(f, None)
@@ -156,6 +160,7 @@ def backup_compare(bak_dir, cmp):
 
 
 def deploy_compare(cmp, delete_no_used):
+    # 新增的变更文件或目录
     count = len(cmp.left_only)
     if count > 0:
         if deploy_config.add_new:
@@ -169,6 +174,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             print('... %s added.' % count)
 
+    # 变更中不包括的文件或目录
     count = len(cmp.right_only)
     if count > 0:
         if delete_no_used:
@@ -182,6 +188,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             print('... %s deleted.' % count)
 
+    # 变更内容的文件
     count = len(cmp.diff_files)
     if count > 0:
         for f in cmp.diff_files:
@@ -196,6 +203,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             print('... %s overwrited.' % count)
 
+    # 子目录
     for f in cmp.subdirs:
         if f in deploy_config.ignore:
             continue

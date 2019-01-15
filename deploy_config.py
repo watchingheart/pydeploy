@@ -1,4 +1,6 @@
 # coding=utf-8
+# author: watchingheart
+# email: jzgjava@163.com
 
 app_name='moon'
 
@@ -14,7 +16,7 @@ else:
     bak = '/home/bodi/bak'
     bak_exclude = 'log'
 
-#变更忽略
+#变更时忽略掉不作变更的文件或目录
 ignore = ('config.py', 'log')
 
 # 是否删除目标目录中有，而源目录中没有的目录和文件
