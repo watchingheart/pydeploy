@@ -10,24 +10,24 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 **testcase/prepare.sh**
 
     .
-    |____dir2
-    | |____commondir
-    | | |____diffile
-    | | |____samefile
-    | |____removedir
-    | | |____txt3
-    | |____diffdir1
-    | | |____txt2
-    | | |____txt1
-    |____dir1
-    | |____commondir
-    | | |____diffile
-    | | |____samefile
-    | |____removedir
-    | | |____txt3
-    | |____diffdir1
-    | | |____txt2
-    | | |____txt1
+    ├── dir1
+    │   ├── commondir
+    │   │   ├── diffile
+    │   │   └── samefile
+    │   ├── diffdir1
+    │   │   ├── txt1
+    │   │   └── txt2
+    │   └── removedir
+    │       └── txt3
+    └── dir2
+        ├── commondir
+        │   ├── diffile
+        │   └── samefile
+        ├── diffdir1
+        │   └── txt1
+        └── diffdir2
+            ├── txt1
+            └── txt2
 
 两个目录dir1,dir2准备好了，dir1是源，dir2是目的。
 
@@ -74,6 +74,28 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
      from 	: ./testcase/testdeploy/dir1
      to 	: ./testcase/testdeploy/dir2
     ------------------------------------------------
+    
+    部署后目录结构：
+    
+    .
+    ├── dir1
+    │   ├── commondir
+    │   │   ├── diffile
+    │   │   └── samefile
+    │   ├── diffdir1
+    │   │   ├── txt1
+    │   │   └── txt2
+    │   └── removedir
+    │       └── txt3
+    └── dir2
+        ├── commondir
+        │   ├── diffile
+        │   └── samefile
+        ├── diffdir1
+        │   ├── txt1
+        │   └── txt2
+        └── removedir
+            └── txt3
 
 没有不同内容。
 
