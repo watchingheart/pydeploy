@@ -77,7 +77,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 没有不同内容。
 
-##备份变更
+## 备份变更
 
 **./deploy.py backup**
 
@@ -90,7 +90,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     BACKUP: cp ./testcase/testdeploy/dir2/diffdir1/txt1 ./testcase/bak/20190115_131505/diffdir1
     BACKUP: cp -r ./testcase/testdeploy/dir2/diffdir2 ./testcase/bak/20190115_131505/.
 
-##全量备份
+## 全量备份
 
 **./deploy.py backup_all**
 
@@ -107,7 +107,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     a ./testcase/testdeploy/dir2/diffdir2/txt1
     ------------------------------------------------
 
-##配置选项
+## 配置选项
 
     #变更忽略
     ignore = ('config.py', 'log')
@@ -125,7 +125,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     # 是否只显示差别
     show_diff_only = True
 
-##TODO
+## TODO
 
 1. 比较源和目的文件的新旧，提供选项来进行设置变更。
 
