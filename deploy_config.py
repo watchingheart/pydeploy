@@ -20,8 +20,7 @@ ignore = ('config.py', 'log')
 # 是否删除目标目录中有，而源目录中没有的目录和文件
 delete_dest = True
 
-# True - 添加目标不存在的目录和文件
-# False - 不添加目标不存在的目录和文件
+# 是否添加目标不存在的目录和文件
 add_new = True
 
 # 更新前先自动备份变更内容
