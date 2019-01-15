@@ -6,9 +6,13 @@ app_name='moon'
 
 test=True
 if test:
+    # 变更源目录
     src = './testcase/testdeploy/dir1'
+    # 变更目的目录
     dest = './testcase/testdeploy/dir2'
+    # 备份目录
     bak = './testcase/bak'
+    # 备份排除的目录和文件
     bak_exclude = None
 else:
     src = '/home/bodi/source/moon'
