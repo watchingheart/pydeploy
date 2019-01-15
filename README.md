@@ -9,7 +9,9 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 **testcase/prepare.sh**
 
-生成的目录结构如下：
+在testcase下建立两个目录，bak - 备份目录，testdeploy - 测试部署。
+
+testdeploy下生成的目录结构如下：
 
     .
     ├── dir1
