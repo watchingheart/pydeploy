@@ -5,7 +5,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 1. 生成测试目录和文件
 
-**testcase/prepare.sh
+**testcase/prepare.sh**
 
     .
     |____dir2
@@ -31,7 +31,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 2. diff查看一下
 
-**./deploy.py diff
+**./deploy.py diff**
 
     ---------------------- DIFF --------------------
      from 	: ./testcase/testdeploy/dir1
@@ -47,7 +47,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
         
 3. 部署变更
 
-**./deploy.py deploy
+**./deploy.py deploy**
 
     -------------------- DEPLOY --------------------
      from 	: ./testcase/testdeploy/dir1
@@ -66,7 +66,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     
  4. 再对比一下
  
- **./deploy.py diff
+ ** ./deploy.py diff**
 
     ---------------------- DIFF --------------------
      from 	: ./testcase/testdeploy/dir1
