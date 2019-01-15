@@ -159,6 +159,6 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 ## TODO
 
-1. 比较源和目的文件的新旧，提供选项来进行设置变更。
+ - [ ] 比较源和目的文件的新旧，提供选项来进行设置变更。
 
-2. 对变更文件内容进行比较，输出对比报告
+ - [ ] 对变更文件内容进行比较，输出对比报告
