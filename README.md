@@ -141,6 +141,18 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 ## 配置选项
 
+    # 变更源目录
+    src = './testcase/testdeploy/dir1'
+    
+    # 变更目的目录
+    dest = './testcase/testdeploy/dir2'
+    
+    # 备份目录
+    bak = './testcase/bak'
+    
+    # 备份排除的目录和文件，可多个，如：('log')
+    bak_exclude = None
+
     #变更忽略
     ignore = ('config.py', 'log')
 
