@@ -141,6 +141,9 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 ## 配置选项
 
+    # 应用名称，作为备份包的前缀
+    app_name = 'test'
+
     # 变更源目录
     src = './testcase/testdeploy/dir1'
     
