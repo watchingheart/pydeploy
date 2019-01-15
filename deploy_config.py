@@ -14,10 +14,10 @@ else:
     bak = '/home/bodi/bak'
     bak_exclude = 'log'
 
+#变更忽略
 ignore = ('config.py', 'log')
 
-# True - 添加、覆盖并且删除不存在的目录和文件
-# False - 添加、覆盖，不删除不存在的目录和文件
+# 是否删除目标目录中有，而源目录中没有的目录和文件
 delete_dest = True
 
 # True - 添加目标不存在的目录和文件

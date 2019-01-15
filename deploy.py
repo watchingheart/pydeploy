@@ -194,7 +194,7 @@ def deploy_compare(cmp, delete_no_used):
                 cmd = 'cp %s %s' % (full_path, cmp.right)
                 print(' %s' % cmd)
                 os.system(cmd)
-        print('... %s overwrited.' % count)
+            print('... %s overwrited.' % count)
 
     for f in cmp.subdirs:
         if f in deploy_config.ignore:
