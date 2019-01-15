@@ -9,6 +9,8 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
 
 **testcase/prepare.sh**
 
+生成的目录结构如下：
+
     .
     ├── dir1
     │   ├── commondir
@@ -29,7 +31,7 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
             ├── txt1
             └── txt2
 
-两个目录dir1,dir2准备好了，dir1是源，dir2是目的。
+两个目录dir1、dir2准备好了，dir1是源，dir2是目的。
 
 2. diff查看一下
 
@@ -46,6 +48,14 @@ A very simple easy-to-use deploy tool, deploy files from soure dir to dest dir, 
     * /diffdir1
         * txt1
         + txt2
+        
+    - 是源没有的
+    + 是目的没有的
+    * 是两边不一样的
+    前面是空格是一样的文件
+    
+    此处只显示差异，所以没有相同文件。
+    
         
 3. 部署变更
 
