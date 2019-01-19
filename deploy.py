@@ -48,6 +48,7 @@ def print_cmp(cmp, level=0):
         if f in deploy_config.ignore:
             continue
         sub_count, sub_buffer = print_cmp(cmp.subdirs[f], level+1)
+        count += sub_count
         if sub_count > 0:  # 判断目录是否有变更
             print_file(buffer, '*', cmp.left, f, level)
             buffer.write(sub_buffer.getvalue())
@@ -72,6 +73,7 @@ def diff(show_diff_only=True):
     cmp = filecmp.dircmp(src, dest)
     total, buf = print_cmp(cmp)
     if total == 0:
+        print()
         print('No difference found.')
     print()
 
@@ -106,7 +108,9 @@ def run_deploy(delete_dest=True, add_dest=True, auto_backup=False):
         print('------------------------------------------------')
     change_count = deploy_compare(cmp, deploy_config.delete_dest)
     if change_count == 0:
+        print()
         print(' Nothing changed.')
+        print()
 
 
 def mk_bak_dir():
