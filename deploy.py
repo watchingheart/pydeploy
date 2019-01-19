@@ -191,8 +191,10 @@ def deploy_compare(cmp, delete_no_used):
     # 变更内容的文件
     count = len(cmp.diff_files)
     if count > 0:
+        skip = 0
         for f in cmp.diff_files:
             if f in deploy_config.ignore:
+                skip += 1
                 continue
             full_path = os.path.join(cmp.left, f)
             if os.path.isdir(full_path):
@@ -201,7 +203,7 @@ def deploy_compare(cmp, delete_no_used):
                 cmd = 'cp %s %s' % (full_path, cmp.right)
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s overwrited.' % count)
+            print('... %s overwrited.' % (count - skip))
 
     # 子目录
     for f in cmp.subdirs:
