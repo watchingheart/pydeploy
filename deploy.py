@@ -74,7 +74,7 @@ def diff(show_diff_only=True):
     total, buf = print_cmp(cmp)
     if total == 0:
         print()
-        print('No difference found.')
+        print('  No difference found.')
     print()
 
 
@@ -87,7 +87,7 @@ def backup_all():
     print(cmd)
     flag = os.system(cmd)
     if flag != 0:
-        print('comlete with error: %s' % flag)
+        print('  comlete with error: %s' % flag)
     print('------------------------------------------------')
     print()
 
