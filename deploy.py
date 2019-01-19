@@ -109,7 +109,7 @@ def run_deploy(delete_dest=True, add_dest=True, auto_backup=False):
     change_count = deploy_compare(cmp, deploy_config.delete_dest)
     if change_count == 0:
         print()
-        print(' Nothing changed.')
+        print('  Nothing changed.')
         print()
 
 
