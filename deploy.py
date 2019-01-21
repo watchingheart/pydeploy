@@ -6,6 +6,7 @@ import os
 from io import StringIO
 import datetime
 import filecmp
+import difflib
 import fire
 import deploy_config
 
@@ -62,20 +63,32 @@ def print_cmp(cmp, level=0):
     return count, buffer
 
 
-def diff(show_diff_only=True):
+def diff(diff_file=None, show_diff_only=True):
     deploy_config.show_diff_only = show_diff_only
-    src = deploy_config.src
-    dest = deploy_config.dest
-    print('---------------------- DIFF --------------------')
-    print(' from \t: %s' % src)
-    print(' to \t: %s' % dest)
-    print('------------------------------------------------')
-    cmp = filecmp.dircmp(src, dest)
-    total, buf = print_cmp(cmp)
-    if total == 0:
+    if diff_file is None:
+        src = deploy_config.src
+        dest = deploy_config.dest
+    else:
+        src = os.path.join(deploy_config.src, diff_file)
+        dest = os.path.join(deploy_config.dest, diff_file)
+    if os.path.isdir(src):  # 目录对比
+        print('---------------------- DIFF --------------------')
+        print(' from \t: %s' % src)
+        print(' to \t: %s' % dest)
+        print('------------------------------------------------')
+        cmp = filecmp.dircmp(src, dest)
+        total, buf = print_cmp(cmp)
+        if total == 0:
+            print()
+            print('  No difference found.')
         print()
-        print('  No difference found.')
-    print()
+    else:  # 比较文件内容
+        d = difflib.Differ()
+        with open(src, 'r') as file1:
+            content1 = file1.read().splitlines()
+        with open(dest, 'r') as file2:
+            content2 = file2.read().splitlines()
+        print('\n'.join(d.compare(content1, content2)))
 
 
 def backup_all():
