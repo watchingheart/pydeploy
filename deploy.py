@@ -271,11 +271,11 @@ def view_config():
 
 class Deploy():
     config = deploy_config
-    configall = view_config
-    diff = diff
-    backup_all = backup_all
-    backup = backup_change
-    deploy = run_deploy
+    configall = lambda cls, *args: view_config(*args)
+    diff = lambda cls, *args: diff(*args)
+    backup_all = lambda cls, *args: backup_all(*args)
+    backup = lambda cls, *args: backup_change(*args)
+    deploy = lambda cls, *args: run_deploy(*args)
 
 
 if __name__ == '__main__':
