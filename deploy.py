@@ -270,7 +270,13 @@ def view_config():
 
 
 class Deploy():
+    '''
+    查看配置参数
+    '''
     config = deploy_config
+    '''
+    显示配置文件内容
+    '''
     configall = lambda cls, *args: view_config(*args)
     diff = lambda cls, *args: diff(*args)
     backup_all = lambda cls, *args: backup_all(*args)
@@ -279,13 +285,4 @@ class Deploy():
 
 
 if __name__ == '__main__':
-    '''
-    fire.Fire({
-        'config': config,
-        'diff': diff,
-        'backup_all': backup_all,
-        'backup': backup_change,
-        'deploy': run_deploy
-    })
-    '''
     fire.Fire(Deploy)
