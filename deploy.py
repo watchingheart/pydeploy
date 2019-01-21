@@ -88,7 +88,10 @@ def diff(diff_file=None, show_diff_only=True):
             content1 = file1.read().splitlines()
         with open(dest, 'r') as file2:
             content2 = file2.read().splitlines()
-        print('\n'.join(d.compare(content1, content2)))
+        if show_diff_only:
+            print('\n'.join(difflib.unified_diff(content1, content2)))
+        else:
+            print('\n'.join(d.compare(content1, content2)))
 
 
 def backup_all():
