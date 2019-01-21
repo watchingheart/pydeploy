@@ -170,11 +170,11 @@ class Deploy():
 
     def __str__(self):
         return """
-        config      -   查看配置参数
-        view        -   显示配置文件内容
-        backup_all  -   全量备份目标目录
-        backup      -   增量备份目标变更文件
-        deploy      -   增量变更
+        config      查看配置参数
+        view        显示配置文件内容
+        backup_all  全量备份目标目录
+        backup      增量备份目标变更文件
+        deploy      增量变更
         """
 
     @staticmethod
