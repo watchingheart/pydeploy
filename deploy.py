@@ -271,11 +271,12 @@ def view_config():
 
 class Deploy():
     """
-    config      - 查看配置参数
-    view        - 显示配置文件内容
-    backup_all  - 显示配置文件内容
-    backup      - 显示配置文件内容
-    deploy      - 显示配置文件内容
+
+    config      -   查看配置参数
+    view        -   显示配置文件内容
+    backup_all  -   全量备份目标目录
+    backup      -   增量备份目标变更文件
+    deploy      -   增量变更
     """
     view = lambda cls, *args: view_config(*args)
     diff = lambda cls, *args: diff(*args)
