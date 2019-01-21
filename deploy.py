@@ -235,7 +235,7 @@ class Deploy():
         backup_compare(mk_bak_dir(), cmp)
 
     @staticmethod
-    def run_deploy(diff_file=None, swap=False, delete_dest=True, add_dest=True, auto_backup=False):
+    def deploy(diff_file=None, swap=False, delete_dest=True, add_dest=True, auto_backup=False):
         deploy_config.delete_dest = delete_dest
         deploy_config.add_new = add_dest
         deploy_config.auto_backup = auto_backup
