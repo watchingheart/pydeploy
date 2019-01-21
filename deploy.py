@@ -265,13 +265,13 @@ def deploy_compare(cmp, delete_no_used):
     return change_count
 
 
-def config():
+def view_config():
     print(open('deploy_config.py').read())
 
 
 class Deploy():
     config = deploy_config
-    configall = config
+    configall = view_config
     diff = diff
     backup_all = backup_all
     backup = backup_change
