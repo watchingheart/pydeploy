@@ -183,7 +183,7 @@ class Deploy():
         else:
             src = os.path.join(deploy_config.src, diff_file)
             dest = os.path.join(deploy_config.dest, diff_file)
-        if swap:
+        if swap:  # 交换源和目的
             src, dest = dest, src
         if os.path.isdir(src):  # 目录对比
             print('---------------------- DIFF --------------------')
@@ -235,7 +235,7 @@ class Deploy():
         backup_compare(mk_bak_dir(), cmp)
 
     @staticmethod
-    def run_deploy(diff_file=None, delete_dest=True, add_dest=True, auto_backup=False):
+    def run_deploy(diff_file=None, swap=False, delete_dest=True, add_dest=True, auto_backup=False):
         deploy_config.delete_dest = delete_dest
         deploy_config.add_new = add_dest
         deploy_config.auto_backup = auto_backup
@@ -245,6 +245,8 @@ class Deploy():
         else:  # 子目录或文件
             src = os.path.join(deploy_config.src, diff_file)
             dest = os.path.join(deploy_config.dest, diff_file)
+        if swap:  # 交换源和目的
+            src, dest = dest, src
         print('-------------------- DEPLOY --------------------')
         print(' from \t: %s' % src)
         print(' to \t: %s' % dest)
