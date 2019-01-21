@@ -108,25 +108,47 @@ def backup_all():
     print()
 
 
-def run_deploy(delete_dest=True, add_dest=True, auto_backup=False):
+def run_deploy(diff_file=None, delete_dest=True, add_dest=True, auto_backup=False):
     deploy_config.delete_dest = delete_dest
     deploy_config.add_new = add_dest
     deploy_config.auto_backup = auto_backup
-    src = deploy_config.src
-    dest = deploy_config.dest
+    if diff_file is None:
+        src = deploy_config.src
+        dest = deploy_config.dest
+    else:  # 子目录或文件
+        src = os.path.join(deploy_config.src, diff_file)
+        dest = os.path.join(deploy_config.dest, diff_file)
     print('-------------------- DEPLOY --------------------')
     print(' from \t: %s' % src)
     print(' to \t: %s' % dest)
     print('------------------------------------------------')
-    cmp = filecmp.dircmp(src, dest)
-    if deploy_config.auto_backup:
-        backup_compare(mk_bak_dir(), cmp)
-        print('------------------------------------------------')
-    change_count = deploy_compare(cmp, deploy_config.delete_dest)
-    if change_count == 0:
-        print()
-        print('  Nothing changed.')
-        print()
+    if os.path.isdir(src):  # 目录对比
+        cmp = filecmp.dircmp(src, dest)
+        if deploy_config.auto_backup:
+            backup_compare(mk_bak_dir(), cmp)
+            print('------------------------------------------------')
+        change_count = deploy_compare(cmp, deploy_config.delete_dest)
+        if change_count == 0:
+            print()
+            print('  Nothing changed.')
+            print()
+    else:
+        same = filecmp.cmp(src, dest)
+        if same:
+            print()
+            print('  Same file content.')
+            print('  Nothing changed.')
+            print()
+        else:
+            if auto_backup:  # 自动备份文件
+                bak_dir = mk_bak_dir()
+                cmd = 'cp %s %s' % (dest, os.path.join(bak_dir, diff_file))
+                print('BACKUP: %s' % cmd)
+                os.system(cmd)
+            cmd = 'cp %s %s' % (src, dest)
+            print(' %s' % cmd)
+            os.system(cmd)
+            print()
 
 
 def mk_bak_dir():
