@@ -270,14 +270,14 @@ def view_config():
 
 
 class Deploy():
-    '''
-    查看配置参数
-    '''
-    config = deploy_config
-    '''
-    显示配置文件内容
-    '''
-    configall = lambda cls, *args: view_config(*args)
+    """
+    config      - 查看配置参数
+    view        - 显示配置文件内容
+    backup_all  - 显示配置文件内容
+    backup      - 显示配置文件内容
+    deploy      - 显示配置文件内容
+    """
+    view = lambda cls, *args: view_config(*args)
     diff = lambda cls, *args: diff(*args)
     backup_all = lambda cls, *args: backup_all(*args)
     backup = lambda cls, *args: backup_change(*args)
