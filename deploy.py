@@ -269,5 +269,22 @@ def config():
     print(open('deploy_config.py').read())
 
 
+class Deploy():
+    config = deploy_config
+    diff = diff
+    backup_all = backup_all
+    backup = backup_change
+    deploy = run_deploy
+
+
 if __name__ == '__main__':
-    fire.Fire({'config': config, 'diff': diff, 'backup_all': backup_all, 'backup': backup_change, 'deploy': run_deploy})
+    '''
+    fire.Fire({
+        'config': config,
+        'diff': diff,
+        'backup_all': backup_all,
+        'backup': backup_change,
+        'deploy': run_deploy
+    })
+    '''
+    fire.Fire(Deploy)
