@@ -265,6 +265,9 @@ def deploy_compare(cmp, delete_no_used):
     return change_count
 
 
+def config():
+    print(open('deploy_config.py').read())
+
 
 if __name__ == '__main__':
-    fire.Fire({'diff': diff, 'backup_all': backup_all, 'backup': backup_change, 'deploy': run_deploy})
+    fire.Fire({'config': config, 'diff': diff, 'backup_all': backup_all, 'backup': backup_change, 'deploy': run_deploy})
