@@ -63,7 +63,7 @@ def print_cmp(cmp, level=0):
     return count, buffer
 
 
-def diff(diff_file=None, show_diff_only=True):
+def diff(diff_file=None, swap=False, show_diff_only=True):
     deploy_config.show_diff_only = show_diff_only
     if diff_file is None:
         src = deploy_config.src
@@ -71,6 +71,8 @@ def diff(diff_file=None, show_diff_only=True):
     else:
         src = os.path.join(deploy_config.src, diff_file)
         dest = os.path.join(deploy_config.dest, diff_file)
+    if swap:
+        src, dest = dest, src
     if os.path.isdir(src):  # 目录对比
         print('---------------------- DIFF --------------------')
         print(' from \t: %s' % src)
