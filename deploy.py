@@ -63,96 +63,6 @@ def print_cmp(cmp, level=0):
     return count, buffer
 
 
-def diff(diff_file=None, swap=False, show_diff_only=True):
-    deploy_config.show_diff_only = show_diff_only
-    if diff_file is None:
-        src = deploy_config.src
-        dest = deploy_config.dest
-    else:
-        src = os.path.join(deploy_config.src, diff_file)
-        dest = os.path.join(deploy_config.dest, diff_file)
-    if swap:
-        src, dest = dest, src
-    if os.path.isdir(src):  # 目录对比
-        print('---------------------- DIFF --------------------')
-        print(' from \t: %s' % src)
-        print(' to \t: %s' % dest)
-        print('------------------------------------------------')
-        cmp = filecmp.dircmp(src, dest)
-        total, buf = print_cmp(cmp)
-        if total == 0:
-            print()
-            print('  No difference found.')
-        print()
-    else:  # 比较文件内容
-        d = difflib.Differ()
-        with open(src, 'r') as file1:
-            content1 = file1.read().splitlines()
-        with open(dest, 'r') as file2:
-            content2 = file2.read().splitlines()
-        if show_diff_only:
-            print('\n'.join(difflib.unified_diff(content1, content2)))
-        else:
-            print('\n'.join(d.compare(content1, content2)))
-
-
-def backup_all():
-    print('------------------ BACKUP ALL -------------------')
-    now = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    cmd = 'tar zcvf %s/%s_%s.tar.gz %s' % (deploy_config.bak, deploy_config.app_name, now, deploy_config.dest)
-    if deploy_config.bak_exclude is not None:
-        cmd = '%s --exclude %s' % (cmd, deploy_config.bak_exclude)
-    print(cmd)
-    flag = os.system(cmd)
-    if flag != 0:
-        print('  comlete with error: %s' % flag)
-    print('------------------------------------------------')
-    print()
-
-
-def run_deploy(diff_file=None, delete_dest=True, add_dest=True, auto_backup=False):
-    deploy_config.delete_dest = delete_dest
-    deploy_config.add_new = add_dest
-    deploy_config.auto_backup = auto_backup
-    if diff_file is None:
-        src = deploy_config.src
-        dest = deploy_config.dest
-    else:  # 子目录或文件
-        src = os.path.join(deploy_config.src, diff_file)
-        dest = os.path.join(deploy_config.dest, diff_file)
-    print('-------------------- DEPLOY --------------------')
-    print(' from \t: %s' % src)
-    print(' to \t: %s' % dest)
-    print('------------------------------------------------')
-    if os.path.isdir(src):  # 目录对比
-        cmp = filecmp.dircmp(src, dest)
-        if deploy_config.auto_backup:
-            backup_compare(mk_bak_dir(), cmp)
-            print('------------------------------------------------')
-        change_count = deploy_compare(cmp, deploy_config.delete_dest)
-        if change_count == 0:
-            print()
-            print('  Nothing changed.')
-            print()
-    else:
-        same = filecmp.cmp(src, dest)
-        if same:
-            print()
-            print('  Same file content.')
-            print('  Nothing changed.')
-            print()
-        else:
-            if auto_backup:  # 自动备份文件
-                bak_dir = mk_bak_dir()
-                cmd = 'cp %s %s' % (dest, os.path.join(bak_dir, diff_file))
-                print('BACKUP: %s' % cmd)
-                os.system(cmd)
-            cmd = 'cp %s %s' % (src, dest)
-            print(' %s' % cmd)
-            os.system(cmd)
-            print()
-
-
 def mk_bak_dir():
     now = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     # 当前日期时间作为临时目录
@@ -160,19 +70,6 @@ def mk_bak_dir():
     if not os.path.exists(bak_dir):
         os.mkdir(bak_dir)
     return bak_dir
-
-
-def backup_change():
-    src = deploy_config.src
-    dest = deploy_config.dest
-    bak = deploy_config.bak
-    print('-------------------- BACKUP --------------------')
-    print(' from \t: %s' % src)
-    print(' to \t: %s' % dest)
-    print(' bak \t: %s' % bak)
-    print('------------------------------------------------')
-    cmp = filecmp.dircmp(deploy_config.src, dest)
-    backup_compare(mk_bak_dir(), cmp)
 
 
 def backup_compare(bak_dir, cmp):
@@ -267,10 +164,6 @@ def deploy_compare(cmp, delete_no_used):
     return change_count
 
 
-def view_config():
-    print(open('deploy_config.py').read())
-
-
 class Deploy():
     """
     config      -   查看配置参数
@@ -280,11 +173,113 @@ class Deploy():
     deploy      -   增量变更
     """
     config = deploy_config
-    view = lambda cls, *args, **kwargs: view_config(*args)
-    diff = lambda cls, *args, **kwargs: diff(*args)
-    backup_all = lambda cls, *args, **kwargs: backup_all(*args)
-    backup = lambda cls, *args, **kwargs: backup_change(*args)
-    deploy = lambda cls, *args, **kwargs: run_deploy(*args)
+
+    @staticmethod
+    def diff(diff_file=None, swap=False, show_diff_only=True):
+        deploy_config.show_diff_only = show_diff_only
+        if diff_file is None:
+            src = deploy_config.src
+            dest = deploy_config.dest
+        else:
+            src = os.path.join(deploy_config.src, diff_file)
+            dest = os.path.join(deploy_config.dest, diff_file)
+        if swap:
+            src, dest = dest, src
+        if os.path.isdir(src):  # 目录对比
+            print('---------------------- DIFF --------------------')
+            print(' from \t: %s' % src)
+            print(' to \t: %s' % dest)
+            print('------------------------------------------------')
+            cmp = filecmp.dircmp(src, dest)
+            total, buf = print_cmp(cmp)
+            if total == 0:
+                print()
+                print('  No difference found.')
+            print()
+        else:  # 比较文件内容
+            d = difflib.Differ()
+            with open(src, 'r') as file1:
+                content1 = file1.read().splitlines()
+            with open(dest, 'r') as file2:
+                content2 = file2.read().splitlines()
+            if show_diff_only:
+                print('\n'.join(difflib.unified_diff(content1, content2)))
+            else:
+                print('\n'.join(d.compare(content1, content2)))
+
+    @staticmethod
+    def backup_all():
+        print('------------------ BACKUP ALL -------------------')
+        now = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        cmd = 'tar zcvf %s/%s_%s.tar.gz %s' % (deploy_config.bak, deploy_config.app_name, now, deploy_config.dest)
+        if deploy_config.bak_exclude is not None:
+            cmd = '%s --exclude %s' % (cmd, deploy_config.bak_exclude)
+        print(cmd)
+        flag = os.system(cmd)
+        if flag != 0:
+            print('  comlete with error: %s' % flag)
+        print('------------------------------------------------')
+        print()
+
+    @staticmethod
+    def backup_change():
+        src = deploy_config.src
+        dest = deploy_config.dest
+        bak = deploy_config.bak
+        print('-------------------- BACKUP --------------------')
+        print(' from \t: %s' % src)
+        print(' to \t: %s' % dest)
+        print(' bak \t: %s' % bak)
+        print('------------------------------------------------')
+        cmp = filecmp.dircmp(deploy_config.src, dest)
+        backup_compare(mk_bak_dir(), cmp)
+
+    @staticmethod
+    def run_deploy(diff_file=None, delete_dest=True, add_dest=True, auto_backup=False):
+        deploy_config.delete_dest = delete_dest
+        deploy_config.add_new = add_dest
+        deploy_config.auto_backup = auto_backup
+        if diff_file is None:
+            src = deploy_config.src
+            dest = deploy_config.dest
+        else:  # 子目录或文件
+            src = os.path.join(deploy_config.src, diff_file)
+            dest = os.path.join(deploy_config.dest, diff_file)
+        print('-------------------- DEPLOY --------------------')
+        print(' from \t: %s' % src)
+        print(' to \t: %s' % dest)
+        print('------------------------------------------------')
+        if os.path.isdir(src):  # 目录对比
+            cmp = filecmp.dircmp(src, dest)
+            if deploy_config.auto_backup:
+                backup_compare(mk_bak_dir(), cmp)
+                print('------------------------------------------------')
+            change_count = deploy_compare(cmp, deploy_config.delete_dest)
+            if change_count == 0:
+                print()
+                print('  Nothing changed.')
+                print()
+        else:
+            same = filecmp.cmp(src, dest)
+            if same:
+                print()
+                print('  Same file content.')
+                print('  Nothing changed.')
+                print()
+            else:
+                if auto_backup:  # 自动备份文件
+                    bak_dir = mk_bak_dir()
+                    cmd = 'cp %s %s' % (dest, os.path.join(bak_dir, diff_file))
+                    print('BACKUP: %s' % cmd)
+                    os.system(cmd)
+                cmd = 'cp %s %s' % (src, dest)
+                print(' %s' % cmd)
+                os.system(cmd)
+                print()
+
+    @staticmethod
+    def view_config():
+        print(open('deploy_config.py').read())
 
 
 if __name__ == '__main__':
