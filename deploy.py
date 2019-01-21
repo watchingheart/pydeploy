@@ -280,11 +280,11 @@ class Deploy():
     deploy      -   增量变更
     """
     config = deploy_config
-    view = lambda cls, *args: view_config(*args)
-    diff = lambda cls, *args: diff(*args)
-    backup_all = lambda cls, *args: backup_all(*args)
-    backup = lambda cls, *args: backup_change(*args)
-    deploy = lambda cls, *args: run_deploy(*args)
+    view = lambda cls, *args, **kwargs: view_config(*args)
+    diff = lambda cls, *args, **kwargs: diff(*args)
+    backup_all = lambda cls, *args, **kwargs: backup_all(*args)
+    backup = lambda cls, *args, **kwargs: backup_change(*args)
+    deploy = lambda cls, *args, **kwargs: run_deploy(*args)
 
 
 if __name__ == '__main__':
