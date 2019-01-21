@@ -21,7 +21,7 @@ else:
     bak_exclude = 'log'
 
 #变更时忽略掉不作变更的文件或目录
-ignore = ('config.py', 'log', 'test_cookie')
+ignore = ('config.py', 'log', 'test_cookie', 'boot.log', 'pid')
 
 # 是否删除目标目录中有，而源目录中没有的目录和文件
 delete_dest = True
