@@ -280,7 +280,7 @@ class Deploy():
                 print()
 
     @staticmethod
-    def view_config():
+    def view():
         print(open('deploy_config.py').read())
 
 
