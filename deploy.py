@@ -271,6 +271,7 @@ def config():
 
 class Deploy():
     config = deploy_config
+    configall = config
     diff = diff
     backup_all = backup_all
     backup = backup_change
