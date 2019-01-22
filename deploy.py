@@ -20,10 +20,10 @@ def print_file(buffer, flag, path, file, level, newer=None, change_size=0):
     msg = '%s%s %s%s' % (tabs(level), flag, '/' if os.path.isdir(full_path) else '', file)
     buffer.write(msg)
     if os.path.isfile(full_path):
-        if newer:
-            buffer.write(' NEW ')
+        if newer is not None:
+            buffer.write(' NEW ' if newer else ' OLD ')
         if change_size != 0:
-            buffer.write(' %s Bytes' % change_size)
+            buffer.write(' [%s Bytes]' % change_size)
     buffer.write('\n')
 
 
@@ -48,7 +48,12 @@ def print_cmp(cmp, level=0):
             if os.path.isfile(full_path):
                 left_stat = os.stat(full_path)
                 right_stat = os.stat(os.path.join(cmp.right, f))
-                newer = left_stat.st_mtime > right_stat.st_mtime
+                if left_stat.st_mtime > right_stat.st_mtime:
+                    newer = True
+                elif left_stat.st_mtime < right_stat.st_mtime:
+                    newer = False
+                else:
+                    newer = None
                 change_size = left_stat.st_size - right_stat.st_size
                 print_file(buffer, '*', cmp.left, f, level, newer, change_size)
             else:
