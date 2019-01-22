@@ -27,6 +27,19 @@ def print_file(buffer, flag, path, file, level, newer=None, change_size=0):
     buffer.write('\n')
 
 
+def compare_stat(f1, f2):
+    left_stat = os.stat(f1)
+    right_stat = os.stat(f2)
+    if left_stat.st_mtime > right_stat.st_mtime:
+        newer = True
+    elif left_stat.st_mtime < right_stat.st_mtime:
+        newer = False
+    else:
+        newer = None
+    change_size = left_stat.st_size - right_stat.st_size
+    return newer, change_size
+
+
 def print_cmp(cmp, level=0):
     buffer = StringIO()
     count: int = 0
@@ -46,15 +59,7 @@ def print_cmp(cmp, level=0):
         else:  # 变更内容的文件
             full_path = os.path.join(cmp.left, f)
             if os.path.isfile(full_path):
-                left_stat = os.stat(full_path)
-                right_stat = os.stat(os.path.join(cmp.right, f))
-                if left_stat.st_mtime > right_stat.st_mtime:
-                    newer = True
-                elif left_stat.st_mtime < right_stat.st_mtime:
-                    newer = False
-                else:
-                    newer = None
-                change_size = left_stat.st_size - right_stat.st_size
+                newer, change_size = compare_stat(full_path, os.path.join(cmp.right, f))
                 print_file(buffer, '*', cmp.left, f, level, newer, change_size)
             else:
                 print_file(buffer, '*', cmp.left, f, level)
@@ -219,6 +224,12 @@ class Deploy():
                 print('  No difference found.')
             print()
         else:  # 比较文件内容
+            newer, change_size = compare_stat(src, dest)
+            if newer is not None:
+                print(' NEWER' if newer else ' OLDER', end='')
+            if change_size != 0:
+                print(' [%s Bytes]' % change_size)
+            print()
             d = difflib.Differ()
             with open(src, 'r') as file1:
                 content1 = file1.read().splitlines()
