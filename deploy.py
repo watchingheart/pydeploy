@@ -15,10 +15,15 @@ def tabs(count):
     return '    ' * count
 
 
-def print_file(buffer, flag, path, file, level):
+def print_file(buffer, flag, path, file, level, newer=None, change_size=0):
     full_path = os.path.join(path, file)
     msg = '%s%s %s%s' % (tabs(level), flag, '/' if os.path.isdir(full_path) else '', file)
     buffer.write(msg)
+    if os.path.isfile(full_path):
+        if newer:
+            buffer.write(' NEW ')
+        if change_size != 0:
+            buffer.write(' %s Bytes' % change_size)
     buffer.write('\n')
 
 
@@ -27,6 +32,7 @@ def print_cmp(cmp, level=0):
     count: int = 0
     all_files = sorted(set(cmp.left_only) | set(cmp.common_files) | set(cmp.right_only))
     for f in all_files:
+
         if f in deploy_config.ignore:
             continue
         if f in cmp.left_only:  # 新增的变更文件或目录
@@ -38,7 +44,15 @@ def print_cmp(cmp, level=0):
                 continue
             print_file(buffer, ' ', cmp.left, f, level)
         else:  # 变更内容的文件
-            print_file(buffer, '*', cmp.left, f, level)
+            full_path = os.path.join(cmp.left, f)
+            if os.path.isfile(full_path):
+                left_stat = os.stat(full_path)
+                right_stat = os.stat(os.path.join(cmp.right, f))
+                newer = left_stat.st_mtime > right_stat.st_mtime
+                change_size = left_stat.st_size - right_stat.st_size
+                print_file(buffer, '*', cmp.left, f, level, newer, change_size)
+            else:
+                print_file(buffer, '*', cmp.left, f, level)
         count += 1
 
     if level == 0:  # 最上一层输出打印信息
@@ -207,8 +221,6 @@ class Deploy():
                 content2 = file2.read().splitlines()
             if show_diff_only:
                 print('\n'.join(difflib.unified_diff(content1, content2)))
-                print('------------------------------------------------')
-                print('\n'.join(difflib.context_diff(content1, content2)))
             else:
                 print('\n'.join(d.compare(content1, content2)))
 
