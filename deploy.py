@@ -212,11 +212,11 @@ class Deploy():
             dest = os.path.join(deploy_config.dest, diff_file)
         if swap:  # 交换源和目的
             src, dest = dest, src
+        print('---------------------- DIFF --------------------')
+        print(' from \t: %s' % src)
+        print(' to \t: %s' % dest)
+        print('------------------------------------------------')
         if os.path.isdir(src):  # 目录对比
-            print('---------------------- DIFF --------------------')
-            print(' from \t: %s' % src)
-            print(' to \t: %s' % dest)
-            print('------------------------------------------------')
             cmp = filecmp.dircmp(src, dest)
             total, buf = print_cmp(cmp)
             if total == 0:
@@ -225,10 +225,12 @@ class Deploy():
             print()
         else:  # 比较文件内容
             newer, change_size = compare_stat(src, dest)
+            print(diff_file, end='')
             if newer is not None:
                 print(' NEWER' if newer else ' OLDER', end='')
             if change_size != 0:
-                print(' [%s Bytes]' % change_size)
+                print(' [%s Bytes]' % change_size, end='')
+            print()
             print()
             d = difflib.Differ()
             with open(src, 'r') as file1:
