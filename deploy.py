@@ -207,6 +207,8 @@ class Deploy():
                 content2 = file2.read().splitlines()
             if show_diff_only:
                 print('\n'.join(difflib.unified_diff(content1, content2)))
+                print('------------------------------------------------')
+                print('\n'.join(difflib.context_diff(content1, content2)))
             else:
                 print('\n'.join(d.compare(content1, content2)))
 
