@@ -55,6 +55,7 @@ def print_cmp(cmp, level=0):
         elif f in cmp.same_files:  # 内容相同未变更的文件
             if deploy_config.show_diff_only:
                 continue
+            full_path = os.path.join(cmp.left, f)
             if os.path.isfile(full_path):
                 newer, change_size = compare_stat(full_path, os.path.join(cmp.right, f))
                 print_file(buffer, ' ', cmp.left, f, level, newer, change_size)
