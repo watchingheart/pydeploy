@@ -235,8 +235,7 @@ class Deploy():
                 print(' NEWER' if newer else ' OLDER', end='')
             if change_size != 0:
                 print(' [%s Bytes]' % change_size, end='')
-            print()
-            print()
+            print('\n')
             d = difflib.Differ()
             with open(src, 'r') as file1:
                 content1 = file1.read().splitlines()
@@ -246,6 +245,7 @@ class Deploy():
                 print('\n'.join(difflib.unified_diff(content1, content2)))
             else:
                 print('\n'.join(d.compare(content1, content2)))
+            print()
 
     @staticmethod
     def backup_all():
