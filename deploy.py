@@ -23,7 +23,7 @@ def print_file(buffer, flag, path, file, level, newer=None, change_size=0):
         if newer is not None:
             buffer.write(' NEWER' if newer else ' OLDER')
         if change_size != 0:
-            buffer.write(' [{:+d} Bytes]' % change_size)
+            buffer.write(' [{:+d} Bytes]'.format(change_size))
     buffer.write('\n')
 
 
