@@ -139,7 +139,11 @@ def deploy_compare(cmp, delete_no_used):
     count = len(cmp.left_only)
     if count > 0:
         if deploy_config.add_new:
+            skip = 0
             for f in cmp.left_only:
+                if f in deploy_config.ignore:
+                    skip += 1
+                    continue
                 full_path = os.path.join(cmp.left, f)
                 if os.path.isdir(full_path):
                     cmd = 'cp -r %s %s' % (full_path, cmp.right)
@@ -148,13 +152,17 @@ def deploy_compare(cmp, delete_no_used):
                 print(' %s' % cmd)
                 os.system(cmd)
             print('... %s added.' % count)
-            change_count += count
+            change_count += (count - skip)
 
     # 变更中不包括的文件或目录
     count = len(cmp.right_only)
     if count > 0:
         if delete_no_used:
+            skip = 0
             for f in cmp.right_only:
+                if f in deploy_config.ignore:
+                    skip += 1
+                    continue
                 full_path = os.path.join(cmp.right, f)
                 if os.path.isdir(full_path):
                     cmd = 'rm -r %s' % full_path
@@ -163,7 +171,7 @@ def deploy_compare(cmp, delete_no_used):
                 print(' %s' % cmd)
                 os.system(cmd)
             print('... %s deleted.' % count)
-            change_count += count
+            change_count += (count - skip)
 
     # 变更内容的文件
     count = len(cmp.diff_files)
