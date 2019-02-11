@@ -151,8 +151,10 @@ def deploy_compare(cmp, delete_no_used):
                     cmd = 'cp %s %s' % (full_path, cmp.right)
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s added.' % (count - skip))
-            change_count += (count - skip)
+            change = count - skip
+            if change > 0:
+                print('... %s added.' % change)
+            change_count += change
 
     # 变更中不包括的文件或目录
     count = len(cmp.right_only)
@@ -170,8 +172,10 @@ def deploy_compare(cmp, delete_no_used):
                     cmd = 'rm %s' % full_path
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s deleted.' % (count - skip))
-            change_count += (count - skip)
+            change = count - skip
+            if change > 0:
+                print('... %s deleted.' % change)
+            change_count += change
 
     # 变更内容的文件
     count = len(cmp.diff_files)
@@ -188,8 +192,10 @@ def deploy_compare(cmp, delete_no_used):
                 cmd = 'cp %s %s' % (full_path, cmp.right)
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s overwrited.' % (count - skip))
-            change_count += (count - skip)
+            change = count - skip
+            if change > 0:
+                print('... %s overwrited.' % change)
+            change_count += change
 
     # 子目录
     for f in cmp.subdirs:
