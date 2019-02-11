@@ -151,7 +151,7 @@ def deploy_compare(cmp, delete_no_used):
                     cmd = 'cp %s %s' % (full_path, cmp.right)
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s added.' % count)
+            print('... %s added.' % (count - skip))
             change_count += (count - skip)
 
     # 变更中不包括的文件或目录
@@ -170,7 +170,7 @@ def deploy_compare(cmp, delete_no_used):
                     cmd = 'rm %s' % full_path
                 print(' %s' % cmd)
                 os.system(cmd)
-            print('... %s deleted.' % count)
+            print('... %s deleted.' % (count - skip))
             change_count += (count - skip)
 
     # 变更内容的文件
