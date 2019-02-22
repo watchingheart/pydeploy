@@ -4,4 +4,4 @@ python:
 install:
   - pip install pipenv
   - pipenv install
-script: ./start.sh
+script: pipenv run python deploy.py
