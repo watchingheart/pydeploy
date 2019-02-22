@@ -112,7 +112,7 @@ def backup_compare(bak_dir, cmp):
         for f in file_list:
             if f in deploy_config.ignore:
                 continue
-            if not deploy_config.delete_dest and f in cmp.right_only:
+            if (not deploy_config.delete_dest) and f in cmp.right_only:  # 目标目录中多余文件，如果不删除，不需要备份
                 continue
             full_path = os.path.join(cmp.right, f)
             rel_path = os.path.relpath(cmp.right, deploy_config.dest)
@@ -289,10 +289,11 @@ class Deploy():
         backup_compare(mk_bak_dir(), cmp)
 
     @staticmethod
-    def deploy(diff_file=None, swap=False, delete_dest=True, add_dest=True, auto_backup=False):
+    def deploy(diff_file=None, swap=False, delete_dest=True, add_dest=True, auto_backup=None):
         deploy_config.delete_dest = delete_dest
         deploy_config.add_new = add_dest
-        deploy_config.auto_backup = auto_backup
+        if auto_backup:
+            deploy_config.auto_backup = auto_backup
         if diff_file is None:
             src = deploy_config.src
             dest = deploy_config.dest
