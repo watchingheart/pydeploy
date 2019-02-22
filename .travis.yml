@@ -7,6 +7,6 @@ install:
 script:
   - pwd
   - cd testcase
-  - prepare.sh
+  - ./prepare.sh
   - cd -
   - pipenv run python deploy.py diff
