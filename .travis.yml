@@ -4,4 +4,7 @@ python:
 install:
   - pip install pipenv
   - pipenv install
-script: cd pydeploy; pipenv run python deploy.py diff
+script:
+  - pwd
+  - cd ~/pydeploy
+  - pipenv run python deploy.py diff
