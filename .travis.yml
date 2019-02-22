@@ -4,3 +4,4 @@ python:
 install:
   - pip install pipenv
   - pipenv install
+script: ./start.sh
