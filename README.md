@@ -10,6 +10,8 @@ A very simple easy-to-use deploy tool, deploy files from source dir to destinati
 
 ## 安装
 
+环境要求：**python3**
+
 根目录下执行：
 
     pipenv install
