@@ -153,7 +153,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             change = count - skip
             if change > 0:
-                print('... %s added.' % change)
+                print(f'ADD ... {change}')
             change_count += change
 
     # 变更中不包括的文件或目录
@@ -174,7 +174,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             change = count - skip
             if change > 0:
-                print('... %s deleted.' % change)
+                print(f'DELETE ... {change}')
             change_count += change
 
     # 变更内容的文件
@@ -194,7 +194,7 @@ def deploy_compare(cmp, delete_no_used):
                 os.system(cmd)
             change = count - skip
             if change > 0:
-                print('... %s overwrited.' % change)
+                print(f'UPDATE ... {change}')
             change_count += change
 
     # 子目录
