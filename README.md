@@ -182,18 +182,3 @@ testdeploy下生成的目录结构如下：
 
  - [X] 对变更文件内容进行比较，输出对比报告
 
-    © 2019 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Help
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
-
