@@ -240,7 +240,7 @@ class Deploy():
             total, buf = print_cmp(cmp)
             if total == 0:
                 print()
-                print('  No difference found.')
+                print('  No differences found.')
             print()
         else:  # 比较文件内容
             newer, change_size = compare_stat(src, dest)
@@ -271,7 +271,7 @@ class Deploy():
         print(cmd)
         flag = os.system(cmd)
         if flag != 0:
-            print('  comlete with error: %s' % flag)
+            print('  complete with error: %s' % flag)
         print('------------------------------------------------')
         print()
 
