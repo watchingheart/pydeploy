@@ -1,6 +1,6 @@
 # pydeploy
 
-[![Build Status](https://travis-ci.com/watchingheart/pydeploy.svg?branch=master)](https://travis-ci.com/watchingheart/pydeploy)
+[![Build Status](https://travis-ci.com/watchingheart/pydeploy.svg?branch=master)](https://travis-ci.com/watchingheart/pydeploy)[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 A very simple easy-to-use deploy tool, deploy files from source dir to destination dir, can view change difference, deploy with options. Write by python.
 
